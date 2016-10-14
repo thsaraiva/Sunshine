@@ -8,6 +8,11 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.ListView;
+
+import java.util.ArrayList;
+import java.util.List;
 
 
 public class MainActivity extends ActionBarActivity {
@@ -57,6 +62,18 @@ public class MainActivity extends ActionBarActivity {
         public View onCreateView(LayoutInflater inflater, ViewGroup container,
                                  Bundle savedInstanceState) {
             View rootView = inflater.inflate(R.layout.fragment_main, container, false);
+            ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
+
+            List<String> days = new ArrayList<>();
+            days.add("Monday");
+            days.add("Tuesday");
+            days.add("Wednesday");
+            days.add("Thursday");
+            days.add("Saturday");
+            days.add("Sunday");
+
+            ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_TextView, days);
+            listView.setAdapter(adapter);
             return rootView;
         }
     }

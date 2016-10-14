@@ -1,0 +1,35 @@
+{
+	"cities" : {
+		"_id" : 2643743,
+		"name" : "London",
+		"country" : "GB",
+		"coord" : {
+			"lon" : -0.12574,
+			"lat" : 51.50853
+		}
+	}, {
+		"_id" : 3451190,
+		"name" : "Rio de Janeiro",
+		"country" : "BR",
+		"coord" : {
+			"lon" : -43.2075,
+			"lat" : -22.902781
+		}
+	}, {
+		"_id" : 2988507,
+		"name" : "Paris",
+		"country" : "FR",
+		"coord" : {
+			"lon" : 2.3488,
+			"lat" : 48.853409
+		}
+	}, {
+		"_id" : 3448439,
+		"name" : "Sao Paulo",
+		"country" : "BR",
+		"coord" : {
+			"lon" : -46.636108,
+			"lat" : -23.547501
+		}
+	}
+}
