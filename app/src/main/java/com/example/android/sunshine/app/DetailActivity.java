@@ -19,7 +19,7 @@ public class DetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new PlaceholderFragment())
+                    .replace(R.id.container, new PlaceholderFragment())
                     .commit();
         }
     }
@@ -28,7 +28,7 @@ public class DetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.detail, menu);
+        getMenuInflater().inflate(R.menu.main, menu);
         return true;
     }
 

@@ -12,7 +12,6 @@ import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
-import android.widget.Toast;
 
 import com.example.android.sunshine.app.AsyncTasks.FetchWeatherForecast;
 
@@ -62,7 +61,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.forecast_fragment, menu);
+        inflater.inflate(R.menu.main, menu);
     }
 
     /**
@@ -110,14 +109,14 @@ public class ForecastFragment extends Fragment {
         adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_TextView, days);
         listView.setAdapter(adapter);
 
-        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
                 String forecast = adapter.getItem(position);
 //                Toast.makeText(getActivity(),forecast,Toast.LENGTH_LONG).show();
-                Intent openDetailsActivity = new Intent(getActivity(),DetailActivity.class);
-                openDetailsActivity.putExtra(Intent.EXTRA_TEXT,forecast);
+                Intent openDetailsActivity = new Intent(getActivity(), DetailActivity.class);
+                openDetailsActivity.putExtra(Intent.EXTRA_TEXT, forecast);
                 startActivity(openDetailsActivity);
             }
         });

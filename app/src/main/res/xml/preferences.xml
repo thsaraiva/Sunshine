@@ -1,0 +1,16 @@
+<?xml version="1.0" encoding="utf-8"?>
+<PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
+    <CheckBoxPreference
+        android:key="check_pref"
+        android:title="checkbox preference"
+        android:summary="string explicando pra que serve a preference"
+        android:defaultValue="true" />
+    <ListPreference
+        android:dependency="check_pref"
+        android:key="list_pref"
+        android:title="list preference"
+        android:dialogTitle="titulo do Dialog"
+        android:entries="@array/pref_syncConnectionTypes_entries"
+        android:entryValues="@array/pref_syncConnectionTypes_values"
+        android:defaultValue="valor default" />
+</PreferenceScreen>
