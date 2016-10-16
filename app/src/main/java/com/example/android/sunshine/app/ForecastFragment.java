@@ -8,8 +8,10 @@ import android.view.MenuInflater;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
+import android.widget.Toast;
 
 import com.example.android.sunshine.app.AsyncTasks.FetchWeatherForecast;
 
@@ -106,6 +108,15 @@ public class ForecastFragment extends Fragment {
 
         adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_TextView, days);
         listView.setAdapter(adapter);
+
+        listView.setOnItemClickListener(new AdapterView.OnItemClickListener(){
+
+            @Override
+            public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                String text = adapter.getItem(position);
+                Toast.makeText(getActivity(),text,Toast.LENGTH_LONG).show();
+            }
+        });
 
         return rootView;
     }
