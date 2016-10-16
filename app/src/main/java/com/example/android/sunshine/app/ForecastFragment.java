@@ -21,6 +21,8 @@ import java.util.List;
  */
 public class ForecastFragment extends Fragment {
 
+    private ArrayAdapter<String> adapter;
+
     public ForecastFragment() {
     }
 
@@ -80,7 +82,7 @@ public class ForecastFragment extends Fragment {
     public boolean onOptionsItemSelected(MenuItem item) {
         if (R.id.action_refresh == item.getItemId()) {
             //start AsyncTask
-            FetchWeatherForecast fetchForecast = new FetchWeatherForecast();
+            FetchWeatherForecast fetchForecast = new FetchWeatherForecast(adapter);
             fetchForecast.execute();
             return true;
         }
@@ -102,7 +104,7 @@ public class ForecastFragment extends Fragment {
         days.add("Saturday");
         days.add("Sunday");
 
-        ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_TextView, days);
+        adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_TextView, days);
         listView.setAdapter(adapter);
 
         return rootView;
