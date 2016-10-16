@@ -1,5 +1,6 @@
 package com.example.android.sunshine.app;
 
+import android.content.Intent;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
@@ -113,8 +114,11 @@ public class ForecastFragment extends Fragment {
 
             @Override
             public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                String text = adapter.getItem(position);
-                Toast.makeText(getActivity(),text,Toast.LENGTH_LONG).show();
+                String forecast = adapter.getItem(position);
+//                Toast.makeText(getActivity(),forecast,Toast.LENGTH_LONG).show();
+                Intent openDetailsActivity = new Intent(getActivity(),DetailActivity.class);
+                openDetailsActivity.putExtra(Intent.EXTRA_TEXT,forecast);
+                startActivity(openDetailsActivity);
             }
         });
 
