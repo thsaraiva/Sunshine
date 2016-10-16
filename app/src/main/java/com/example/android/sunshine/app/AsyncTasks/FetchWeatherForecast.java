@@ -16,6 +16,7 @@ import java.net.URL;
 public class FetchWeatherForecast extends AsyncTask<Void, Void, Void> {
 
     private final String LOG_TAG = FetchWeatherForecast.class.getSimpleName();
+
     @Override
     protected Void doInBackground(Void... voids) {
         // These two need to be declared outside the try/catch
@@ -30,7 +31,11 @@ public class FetchWeatherForecast extends AsyncTask<Void, Void, Void> {
             // Construct the URL for the OpenWeatherMap query
             // Possible parameters are avaiable at OWM's forecast API page, at
             // http://openweathermap.org/API#forecast
-            URL url = new URL("http://api.openweathermap.org/data/2.5/forecast/daily?q=94043&mode=json&units=metric&cnt=7");
+            String base_url = "http://api.openweathermap.org/data/2.5";
+            String api = "/forecast/daily";
+            String queryParameters = "?q=94043&mode=json&units=metric&cnt=7";
+            String API_KEY = "&APPID=674241f50ea6f65a948e32c5f74c5132";
+            URL url = new URL(base_url + api + queryParameters + API_KEY);
 
             // Create the request to OpenWeatherMap, and open the connection
             urlConnection = (HttpURLConnection) url.openConnection();
@@ -59,6 +64,7 @@ public class FetchWeatherForecast extends AsyncTask<Void, Void, Void> {
                 return null;
             }
             forecastJsonStr = buffer.toString();
+            Log.v(LOG_TAG, "forecastJsonStr = " + forecastJsonStr);
         } catch (IOException e) {
             Log.e(LOG_TAG, "Error ", e);
             // If the code didn't successfully get the weather data, there's no point in attemping

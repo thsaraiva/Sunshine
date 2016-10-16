@@ -2,7 +2,6 @@ package com.example.android.sunshine.app;
 
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
-import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuInflater;
@@ -14,12 +13,6 @@ import android.widget.ListView;
 
 import com.example.android.sunshine.app.AsyncTasks.FetchWeatherForecast;
 
-import java.io.BufferedReader;
-import java.io.IOException;
-import java.io.InputStream;
-import java.io.InputStreamReader;
-import java.net.HttpURLConnection;
-import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -54,6 +47,7 @@ public class ForecastFragment extends Fragment {
      * Initialize the contents of the Activity's standard options menu.  You
      * should place your menu items in to <var>menu</var>.  For this method
      * to be called, you must have first called {@link #setHasOptionsMenu}.
+     *
      * @param menu     The options menu in which you place your items.
      * @param inflater
      * @see #setHasOptionsMenu
@@ -63,7 +57,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.forecast_fragment,menu);
+        inflater.inflate(R.menu.forecast_fragment, menu);
     }
 
     /**
@@ -84,7 +78,10 @@ public class ForecastFragment extends Fragment {
      */
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if(R.id.action_refresh == item.getItemId()){
+        if (R.id.action_refresh == item.getItemId()) {
+            //start AsyncTask
+            FetchWeatherForecast fetchForecast = new FetchWeatherForecast();
+            fetchForecast.execute();
             return true;
         }
         return super.onOptionsItemSelected(item);
@@ -107,10 +104,6 @@ public class ForecastFragment extends Fragment {
 
         ArrayAdapter<String> adapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, R.id.list_item_forecast_TextView, days);
         listView.setAdapter(adapter);
-
-        //start AsyncTask
-        FetchWeatherForecast fetchForecast = new FetchWeatherForecast();
-//        fetchForecast.execute();
 
         return rootView;
     }
