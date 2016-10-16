@@ -5,6 +5,8 @@
         android:title="checkbox preference"
         android:summary="string explicando pra que serve a preference"
         android:defaultValue="true" />
+
+
     <ListPreference
         android:dependency="check_pref"
         android:key="list_pref"

@@ -10,9 +10,10 @@ public class SettingsActivity extends PreferenceActivity {
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
+
         // Display the fragment as the main content.
         getFragmentManager().beginTransaction()
-                .replace(R.id.container, new SettingsFragment())
+                .replace(android.R.id.content, new SettingsFragment())
                 .commit();
     }
 

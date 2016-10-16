@@ -61,7 +61,7 @@ public class ForecastFragment extends Fragment {
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        inflater.inflate(R.menu.main, menu);
+        inflater.inflate(R.menu.main_menu, menu);
     }
 
     /**
@@ -86,6 +86,10 @@ public class ForecastFragment extends Fragment {
             //start AsyncTask
             FetchWeatherForecast fetchForecast = new FetchWeatherForecast(adapter);
             fetchForecast.execute();
+            return true;
+        } else if (R.id.action_settings == item.getItemId()) {
+            Intent settings = new Intent(getActivity(), SettingsActivity.class);
+            startActivity(settings);
             return true;
         }
         return super.onOptionsItemSelected(item);

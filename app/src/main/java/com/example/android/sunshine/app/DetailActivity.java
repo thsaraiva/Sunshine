@@ -19,7 +19,7 @@ public class DetailActivity extends ActionBarActivity {
         setContentView(R.layout.activity_detail);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .replace(R.id.container, new PlaceholderFragment())
+                    .replace(R.id.container, new DetailsFragment())
                     .commit();
         }
     }
@@ -28,7 +28,7 @@ public class DetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.main, menu);
+        getMenuInflater().inflate(R.menu.details_menu, menu);
         return true;
     }
 
@@ -40,19 +40,20 @@ public class DetailActivity extends ActionBarActivity {
         int id = item.getItemId();
 
         //noinspection SimplifiableIfStatement
-        if (id == R.id.action_settings) {
+        if (R.id.action_settings == item.getItemId()) {
+            Intent settings = new Intent(this, SettingsActivity.class);
+            startActivity(settings);
             return true;
         }
-
         return super.onOptionsItemSelected(item);
     }
 
     /**
      * A placeholder fragment containing a simple view.
      */
-    public static class PlaceholderFragment extends Fragment {
+    public static class DetailsFragment extends Fragment {
 
-        public PlaceholderFragment() {
+        public DetailsFragment() {
         }
 
         @Override
