@@ -1,5 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <resources>
-    <string-array name="pref_syncConnectionTypes_entries">preference_list_entries</string-array>
-    <string-array name="pref_syncConnectionTypes_values">preference_list_values</string-array>
+    <string-array name="pref_units_entries">
+        <item>Celcius (°C)</item>
+        <item>Farenheit (°F)</item>
+        <item>Kelvin (°K)</item>
+    </string-array>
+
+    <string-array name="pref_units_values">
+        <item>"metric"</item>
+        <item>"imperial"</item>
+        <item>""</item>
+    </string-array>
+
+    <string-array name="pref_cities_entries">
+        <item>London</item>
+        <item>Paris</item>
+        <item>Rio de Janeiro</item>
+        <item>São Paulo</item>
+    </string-array>
+
+    <string-array name="pref_cities_values">
+        <item>2643743</item>
+        <item>2988507</item>
+        <item>3451190</item>
+        <item>3448439</item>
+    </string-array>
 </resources>

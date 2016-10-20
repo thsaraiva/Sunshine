@@ -9,10 +9,19 @@
 
     <ListPreference
         android:dependency="check_pref"
-        android:key="list_pref"
+        android:key="units_pref"
         android:title="list preference"
         android:dialogTitle="titulo do Dialog"
-        android:entries="@array/pref_syncConnectionTypes_entries"
-        android:entryValues="@array/pref_syncConnectionTypes_values"
-        android:defaultValue="valor default" />
+        android:entries="@array/pref_units_entries"
+        android:entryValues="@array/pref_units_values"
+        android:defaultValue="metric" />
+
+    <ListPreference
+        android:dependency="check_pref"
+        android:key="cities_pref"
+        android:title="Select a City"
+        android:dialogTitle="List of available cities"
+        android:entries="@array/pref_cities_entries"
+        android:entryValues="@array/pref_cities_values"
+        android:defaultValue="2643743" />
 </PreferenceScreen>
