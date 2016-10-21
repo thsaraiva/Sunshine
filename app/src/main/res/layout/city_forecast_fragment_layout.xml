@@ -2,8 +2,8 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center_horizontal"
     android:background="@drawable/main_bg"
+    android:gravity="center_horizontal"
     android:orientation="vertical"
     tools:context="com.example.android.sunshine.app.View.CityForecastListFragment">
 
@@ -12,8 +12,8 @@
         android:layout_width="wrap_content"
         android:layout_height="@dimen/minimum_text_field_dimen"
         android:gravity="center"
-        android:textAllCaps="true"
         android:text="@string/no_city_selected"
+        android:textAllCaps="true"
         android:textSize="@dimen/abc_text_size_title_material"
         android:textStyle="bold" />
 
@@ -26,13 +26,15 @@
         <android.support.v4.view.PagerTitleStrip
             android:id="@+id/city_forecast_pager_title_strip"
             android:layout_width="match_parent"
-            android:layout_height="@dimen/minimum_text_field_dimen"
-            android:layout_gravity="top"
-            android:background="#EFEFEF"
-            android:textColor="#000"
+            android:layout_height="wrap_content"
+            android:paddingTop="8dp"
+            android:paddingBottom="8dp"
+            android:background="#2D2D2D"
+            android:textColor="#FFF"
             android:textSize="@dimen/abc_text_size_subtitle_material_toolbar"
-            android:paddingTop="4dp"
-            android:paddingBottom="4dp" />
+            android:textStyle="bold" />
     </android.support.v4.view.ViewPager>
+    <!--android:layout_height="@dimen/minimum_text_field_dimen"-->
+
 
 </LinearLayout>
