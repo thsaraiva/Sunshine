@@ -19,6 +19,8 @@ import com.example.android.sunshine.app.R;
 import java.util.ArrayList;
 import java.util.List;
 
+import static com.example.android.sunshine.app.R.id.list_item_forecast_TextView;
+
 public class CityForecastListFragment extends Fragment {
 
     private static final String CITY_POSITION = "city_position";
@@ -152,7 +154,7 @@ public class CityForecastListFragment extends Fragment {
             days.add("Page #" + mNum + " - Friday");
             days.add("Page #" + mNum + " - Saturday");
             days.add("Page #" + mNum + " - Sunday");
-            ArrayAdapter<String> dailyForecastListAdapter = new ArrayAdapter<>(getActivity(), R.layout.list_item_forecast, days);
+            ArrayAdapter<String> dailyForecastListAdapter = new ArrayAdapter<>(getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, days);
             listView.setAdapter(dailyForecastListAdapter);
 
 //            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
