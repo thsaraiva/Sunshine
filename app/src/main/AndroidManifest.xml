@@ -25,7 +25,8 @@
                 android:name="android.support.PARENT_ACTIVITY"
                 android:value=".View.MainActivity" />
         </activity>
-        <activity android:name=".View.SettingsActivity"></activity>
+        <activity android:name=".View.SettingsActivity" />
+        <activity android:name=".View.CityForecastActivity"></activity>
     </application>
 
 </manifest>

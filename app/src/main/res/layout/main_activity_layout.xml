@@ -6,7 +6,7 @@
     android:layout_height="match_parent"
     tools:context=".View.MainActivity">
     <fragment
-        android:id="@+id/list"
+        android:id="@+id/fragment_main"
         android:name="com.example.android.sunshine.app.View.MainFragment"
         android:layout_width="match_parent"
         android:layout_height="match_parent" />

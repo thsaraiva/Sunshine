@@ -2,8 +2,8 @@
     android:id="@+id/container"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:gravity="center"
     android:background="@drawable/main_bg"
+    android:gravity="center"
     android:orientation="vertical">
 
     <TextView
@@ -16,16 +16,16 @@
 
     <Spinner
         android:id="@+id/city_spinner"
-        android:layout_margin="22dp"
         android:layout_width="wrap_content"
-        android:layout_height="wrap_content" />
+        android:layout_height="wrap_content"
+        android:layout_margin="22dp" />
 
     <Button
         android:id="@+id/get_forecast_button"
-        android:layout_margin="22dp"
-
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
+        android:layout_margin="22dp"
+        android:onClick="getCityForecast"
         android:text="@string/go" />
 
 

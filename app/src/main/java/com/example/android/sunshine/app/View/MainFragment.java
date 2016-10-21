@@ -1,11 +1,13 @@
 package com.example.android.sunshine.app.View;
 
+import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
+import android.widget.Button;
 import android.widget.Spinner;
 
 import com.example.android.sunshine.app.R;
@@ -16,6 +18,8 @@ public class MainFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
+
+    private OnGetCityForecastClickListener mGetCityForecastListener;
 
     /**
      * Use this factory method to create a new instance of
@@ -44,6 +48,22 @@ public class MainFragment extends Fragment {
         }
     }
 
+    /**
+     * Called when a fragment is first attached to its activity.
+     * {@link #onCreate(Bundle)} will be called after this.
+     *
+     * @param activity
+     */
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mGetCityForecastListener = (OnGetCityForecastClickListener) activity;
+        } catch (ClassCastException exception) {
+            throw new ClassCastException(activity.toString() + "must implement OnGetCityForecastClickListener interface ");
+        }
+    }
+
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
@@ -56,7 +76,20 @@ public class MainFragment extends Fragment {
         Spinner citiesSpinner = (Spinner) view.findViewById(R.id.city_spinner);
         citiesSpinner.setAdapter(citiesAdapter);
 
+        Button getForecastButton = (Button) view.findViewById(R.id.get_forecast_button);
+        getForecastButton.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Spinner citySpinner = (Spinner) getActivity().findViewById(R.id.city_spinner);
+                mGetCityForecastListener.onGetCityForecastClick(citySpinner.getSelectedItem().toString(), citySpinner.getSelectedItemPosition());
+            }
+        });
+
         return view;
     }
 
+    // Container Activity must implement this interface
+    public interface OnGetCityForecastClickListener {
+        public void onGetCityForecastClick(String cityName, int cityPosition);
+    }
 }
