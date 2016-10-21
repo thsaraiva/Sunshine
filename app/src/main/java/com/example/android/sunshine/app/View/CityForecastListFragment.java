@@ -163,7 +163,7 @@ public class CityForecastListFragment extends Fragment {
 //                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
 //                    String forecast = dailyForecastListAdapter.getItem(position);
 ////                Toast.makeText(getActivity(),forecast,Toast.LENGTH_LONG).show();
-//                    Intent openDetailsActivity = new Intent(getActivity(), CityForecastDetailsActivity.class);
+//                    Intent openDetailsActivity = new Intent(getActivity(), ForecastDetailsActivity.class);
 //                    openDetailsActivity.putExtra(Intent.EXTRA_TEXT, forecast);
 //                    startActivity(openDetailsActivity);
 //                }

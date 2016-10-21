@@ -19,7 +19,7 @@
             </intent-filter>
         </activity>
         <activity
-            android:name=".View.CityForecastDetailsActivity"
+            android:name=".View.ForecastDetailsActivity"
             android:parentActivityName=".View.MainActivity">
             <meta-data
                 android:name="android.support.PARENT_ACTIVITY"

@@ -9,15 +9,15 @@ import android.view.MenuItem;
 
 import com.example.android.sunshine.app.R;
 
-public class CityForecastDetailsActivity extends ActionBarActivity {
+public class ForecastDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.city_forecast_details_activity_layout);
+        setContentView(R.layout.forecast_details_activity_layout);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.city_forecast_details_container, new CityForecastDetailsFragment())
+                    .add(R.id.city_forecast_details_container, new ForecastDetailsFragment())
                     .commit();
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
