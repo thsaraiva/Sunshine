@@ -1,13 +1,38 @@
-<FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
+<LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context="com.example.android.sunshine.app.View.CityForecastFragment">
+    android:gravity="center_horizontal"
+    android:background="@drawable/main_bg"
+    android:orientation="vertical"
+    tools:context="com.example.android.sunshine.app.View.CityForecastListFragment">
 
     <TextView
         android:id="@+id/city_name"
-        android:layout_width="match_parent"
-        android:layout_height="match_parent"
-        android:text="@string/no_city_selected" />
+        android:layout_width="wrap_content"
+        android:layout_height="@dimen/minimum_text_field_dimen"
+        android:gravity="center"
+        android:textAllCaps="true"
+        android:text="@string/no_city_selected"
+        android:textSize="@dimen/abc_text_size_title_material"
+        android:textStyle="bold" />
 
-</FrameLayout>
+    <android.support.v4.view.ViewPager
+        android:id="@+id/city_forecast_view_pager"
+        android:layout_width="match_parent"
+        android:layout_height="0dp"
+        android:layout_weight="1">
+
+        <android.support.v4.view.PagerTitleStrip
+            android:id="@+id/city_forecast_pager_title_strip"
+            android:layout_width="match_parent"
+            android:layout_height="@dimen/minimum_text_field_dimen"
+            android:layout_gravity="top"
+            android:background="#EFEFEF"
+            android:textColor="#000"
+            android:textSize="@dimen/abc_text_size_subtitle_material_toolbar"
+            android:paddingTop="4dp"
+            android:paddingBottom="4dp" />
+    </android.support.v4.view.ViewPager>
+
+</LinearLayout>

@@ -2,27 +2,22 @@ package com.example.android.sunshine.app.View;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.v4.app.Fragment;
 import android.support.v4.app.NavUtils;
 import android.support.v7.app.ActionBarActivity;
-import android.view.LayoutInflater;
 import android.view.Menu;
 import android.view.MenuItem;
-import android.view.View;
-import android.view.ViewGroup;
-import android.widget.TextView;
 
 import com.example.android.sunshine.app.R;
 
-public class DetailActivity extends ActionBarActivity {
+public class CityForecastDetailsActivity extends ActionBarActivity {
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        setContentView(R.layout.activity_detail);
+        setContentView(R.layout.city_forecast_details_activity_layout);
         if (savedInstanceState == null) {
             getSupportFragmentManager().beginTransaction()
-                    .add(R.id.container, new DetailsFragment())
+                    .add(R.id.city_forecast_details_container, new CityForecastDetailsFragment())
                     .commit();
         }
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
@@ -32,7 +27,7 @@ public class DetailActivity extends ActionBarActivity {
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         // Inflate the menu; this adds items to the action bar if it is present.
-        getMenuInflater().inflate(R.menu.details_menu, menu);
+        getMenuInflater().inflate(R.menu.city_forecast_details_activity_menu, menu);
         return true;
     }
 
@@ -54,24 +49,4 @@ public class DetailActivity extends ActionBarActivity {
         return super.onOptionsItemSelected(item);
     }
 
-    /**
-     * A placeholder fragment containing a simple view.
-     */
-    public static class DetailsFragment extends Fragment {
-
-        public DetailsFragment() {
-        }
-
-        @Override
-        public View onCreateView(LayoutInflater inflater, ViewGroup container,
-                                 Bundle savedInstanceState) {
-            Intent intent = getActivity().getIntent();
-            String forecast = intent.getStringExtra(Intent.EXTRA_TEXT);
-
-            View rootView = inflater.inflate(R.layout.fragment_detail, container, false);
-            TextView forecastDetail = (TextView) rootView.findViewById(R.id.detail_forecast_textview);
-            forecastDetail.setText(forecast);
-            return rootView;
-        }
-    }
 }
