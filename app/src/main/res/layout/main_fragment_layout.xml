@@ -3,6 +3,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     android:gravity="center"
+    android:background="@drawable/main_bg"
     android:orientation="vertical">
 
     <TextView
@@ -11,7 +12,6 @@
         android:layout_margin="22dp"
         android:text="@string/city_selection"
         android:textAppearance="?android:textAppearanceLarge"
-        android:textColor="#4689C8"
         android:textStyle="bold" />
 
     <Spinner

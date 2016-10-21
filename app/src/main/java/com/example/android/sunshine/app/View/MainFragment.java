@@ -1,11 +1,12 @@
 package com.example.android.sunshine.app.View;
 
-import android.app.Activity;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ArrayAdapter;
+import android.widget.Spinner;
 
 import com.example.android.sunshine.app.R;
 
@@ -15,12 +16,6 @@ public class MainFragment extends Fragment {
 
     private String mParam1;
     private String mParam2;
-
-    private OnFragmentInteractionListener mListener;
-
-    public MainFragment() {
-        // Required empty public constructor
-    }
 
     /**
      * Use this factory method to create a new instance of
@@ -52,48 +47,16 @@ public class MainFragment extends Fragment {
     @Override
     public View onCreateView(LayoutInflater inflater, ViewGroup container,
                              Bundle savedInstanceState) {
-        return inflater.inflate(R.layout.main_fragment_layout, container, false);
+        //infla layout do MainFragment
+        View view = inflater.inflate(R.layout.main_fragment_layout, container, false);
+
+        //Constroi adpter com os valores das cidades que vao aparecer no Spinner e seta Adpter nele.
+        ArrayAdapter<CharSequence> citiesAdapter = ArrayAdapter.createFromResource(getActivity(), R.array.pref_cities_entries, android.R.layout.simple_spinner_item);
+        citiesAdapter.setDropDownViewResource(android.R.layout.simple_spinner_dropdown_item);
+        Spinner citiesSpinner = (Spinner) view.findViewById(R.id.city_spinner);
+        citiesSpinner.setAdapter(citiesAdapter);
+
+        return view;
     }
 
-    /**
-     * This method is used to notify the Activity about any interaction with the Fragment.
-     *
-     * @param view
-     */
-    public void onButtonPressed(View view) {
-        if (mListener != null) {
-            mListener.onFragmentInteraction("name of the choosen city");
-        }
-    }
-
-    @Override
-    public void onAttach(Activity activity) {
-        super.onAttach(activity);
-        if (activity instanceof OnFragmentInteractionListener) {
-            mListener = (OnFragmentInteractionListener) activity;
-        } else {
-            throw new RuntimeException(activity.toString()
-                    + " must implement OnFragmentInteractionListener");
-        }
-    }
-
-    @Override
-    public void onDetach() {
-        super.onDetach();
-        mListener = null;
-    }
-
-    /**
-     * This interface must be implemented by activities that contain this
-     * fragment to allow an interaction in this fragment to be communicated
-     * to the activity and potentially other fragments contained in that
-     * activity.
-     * <p>
-     * See the Android Training lesson <a href=
-     * "http://developer.android.com/training/basics/fragments/communicating.html"
-     * >Communicating with Other Fragments</a> for more information.
-     */
-    public interface OnFragmentInteractionListener {
-        void onFragmentInteraction(String city);
-    }
 }
