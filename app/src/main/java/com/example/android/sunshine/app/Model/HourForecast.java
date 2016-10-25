@@ -5,7 +5,7 @@ package com.example.android.sunshine.app.Model;
  */
 public class HourForecast {
 
-    public int dt; //Time of data forecasted, unix, UTC
+    public long dt; //Time of data forecasted, unix, UTC
     public MainForecast main;
     public Weather[] weather;
     public Cloud clouds;
@@ -13,21 +13,4 @@ public class HourForecast {
     //    public Rain rain;
 //    public Snow snow;
     public String dt_text;
-
-    class Weather {
-        public int id;
-        public String main;
-        public String description;
-        public String icon;
-    }
-
-
-    class Cloud {
-        public int all;
-    }
-
-    class Wind {
-        public double speed;
-        public double degree;
-    }
 }

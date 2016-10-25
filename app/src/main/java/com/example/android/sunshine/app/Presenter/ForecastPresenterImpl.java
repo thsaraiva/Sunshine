@@ -6,6 +6,8 @@ import android.util.Log;
 
 import com.example.android.sunshine.app.API.WeatherForecastAPI;
 import com.example.android.sunshine.app.Model.DailyForecast;
+import com.example.android.sunshine.app.Model.HourForecast;
+import com.example.android.sunshine.app.Model.Weather;
 import com.example.android.sunshine.app.View.CityForecastListActivity;
 
 import java.io.IOException;
@@ -101,11 +103,17 @@ public class ForecastPresenterImpl implements ForecastPresenter {
             public void onResponse(Call<DailyForecast> call, Response<DailyForecast> response) {
                 int code = response.code();
                 if (code == 200) {
-                    DailyForecast df = response.body();
-                    int dataContainer = df.cnt;
-                    Log.d("ComicsListActivity", "WUHUW PASSOU!!! PORRA!");
+                    HourForecast list = response.body().list[0];
+                    long dateAndTime = list.dt;
+                    double temperature = list.main.temp;
+                    Weather weather = list.weather[0];
+                    String description = weather.description;
+                    String iconPath = weather.icon;
+
+
+                    Log.v("ComicsListActivity", "Request successful and data parsed correctly");
                 } else {
-                    Log.d("ComicsListActivity", "Request successful but something went wrong parsing!!");
+                    Log.v("ComicsListActivity", "Request successful but something went wrong parsing!!");
                 }
             }
 
