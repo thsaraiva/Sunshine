@@ -10,16 +10,17 @@ import android.support.v4.view.ViewPager;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.AdapterView;
 import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
 import com.example.android.sunshine.app.R;
 
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
-
-import static com.example.android.sunshine.app.R.id.list_item_forecast_TextView;
 
 public class CityForecastListFragment extends Fragment {
 
@@ -88,7 +89,11 @@ public class CityForecastListFragment extends Fragment {
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            return "Título da página #" + position;
+            Calendar currentTime = Calendar.getInstance();
+            currentTime.add(Calendar.DAY_OF_MONTH, position);
+
+            SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+            return df.format(currentTime.getTime());
         }
 
         /**
@@ -119,6 +124,9 @@ public class CityForecastListFragment extends Fragment {
         private static final String PAGE_NUMBER = "pageNumber";
         private int mNum;
 
+        private OnForecastSelectedListener mForecastListItemClickListener;
+
+
         public static DailyForecastListFragment newInstance(int pageNumber) {
             DailyForecastListFragment newFrag = new DailyForecastListFragment();
             Bundle arguments = new Bundle();
@@ -136,8 +144,17 @@ public class CityForecastListFragment extends Fragment {
         @Override
         public void onAttach(Activity activity) {
             super.onAttach(activity);
+
+            try {
+                mForecastListItemClickListener = (OnForecastSelectedListener) activity;
+            } catch (ClassCastException e) {
+                throw new ClassCastException(activity.toString() + " should implement interface OnForecastSelectedListener");
+            }
+
             Bundle arguments = getArguments();
             mNum = arguments != null ? arguments.getInt(PAGE_NUMBER) : 1;
+
+
         }
 
         @Override
@@ -154,20 +171,17 @@ public class CityForecastListFragment extends Fragment {
             days.add("Page #" + mNum + " - Friday");
             days.add("Page #" + mNum + " - Saturday");
             days.add("Page #" + mNum + " - Sunday");
+
             ArrayAdapter<String> dailyForecastListAdapter = new ArrayAdapter<>(getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, days);
             listView.setAdapter(dailyForecastListAdapter);
 
-//            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
-//
-//                @Override
-//                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-//                    String forecast = dailyForecastListAdapter.getItem(position);
-////                Toast.makeText(getActivity(),forecast,Toast.LENGTH_LONG).show();
-//                    Intent openDetailsActivity = new Intent(getActivity(), ForecastDetailsActivity.class);
-//                    openDetailsActivity.putExtra(Intent.EXTRA_TEXT, forecast);
-//                    startActivity(openDetailsActivity);
-//                }
-//            });
+            listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
+                @Override
+                public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
+                    mForecastListItemClickListener.onForecastSelected(position);
+                }
+            });
+
             if (rootView != null) {
                 return rootView;
             }
@@ -175,4 +189,7 @@ public class CityForecastListFragment extends Fragment {
         }
     }
 
+    public interface OnForecastSelectedListener {
+        void onForecastSelected(int position);
+    }
 }

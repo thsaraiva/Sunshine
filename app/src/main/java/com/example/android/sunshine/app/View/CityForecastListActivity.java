@@ -10,7 +10,7 @@ import android.widget.ArrayAdapter;
 import com.example.android.sunshine.app.AsyncTasks.FetchWeatherForecast;
 import com.example.android.sunshine.app.R;
 
-public class CityForecastListActivity extends ActionBarActivity {
+public class CityForecastListActivity extends ActionBarActivity implements CityForecastListFragment.OnForecastSelectedListener {
     public static final String CITY_POSITION = "city_position";
     public static final String CITY_NAME = "city_name";
 
@@ -49,5 +49,12 @@ public class CityForecastListActivity extends ActionBarActivity {
         }
         return super.onOptionsItemSelected(item);
 
+    }
+
+    @Override
+    public void onForecastSelected(int position) {
+        Intent openDetailsActivity = new Intent(this, ForecastDetailsActivity.class);
+        openDetailsActivity.putExtra("forecast_list_item_position", position);
+        startActivity(openDetailsActivity);
     }
 }
