@@ -29,13 +29,13 @@ public class CityForecastListFragment extends Fragment {
     private static final int PAGES_NUMBER = 5;
 
     private String mCityName;
-    private int mCityPosition;
+    private String mCityPosition;
 
-    public static CityForecastListFragment newInstance(String cityName, int cityPosition) {
+    public static CityForecastListFragment newInstance(String cityName, String cityPosition) {
         CityForecastListFragment fragment = new CityForecastListFragment();
         Bundle args = new Bundle();
         args.putString(CITY_NAME, cityName);
-        args.putInt(CITY_POSITION, cityPosition);
+        args.putString(CITY_POSITION, cityPosition);
         fragment.setArguments(args);
         return fragment;
     }
@@ -45,7 +45,7 @@ public class CityForecastListFragment extends Fragment {
         super.onCreate(savedInstanceState);
         if (getArguments() != null) {
             mCityName = getArguments().getString(CITY_NAME);
-            mCityPosition = getArguments().getInt(CITY_POSITION);
+            mCityPosition = getArguments().getString(CITY_POSITION);
         }
     }
 

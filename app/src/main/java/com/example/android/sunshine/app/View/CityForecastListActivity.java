@@ -23,7 +23,7 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
         setContentView(R.layout.city_forecast_activity_layout);
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            CityForecastListFragment cityForecastListFragment = CityForecastListFragment.newInstance(intent.getStringExtra(CITY_NAME), intent.getIntExtra(CITY_POSITION, 0));
+            CityForecastListFragment cityForecastListFragment = CityForecastListFragment.newInstance(intent.getStringExtra(CITY_NAME), intent.getStringExtra(CITY_POSITION));
             getSupportFragmentManager().beginTransaction().add(R.id.activity_city_forecast, cityForecastListFragment).commit();
         }
     }

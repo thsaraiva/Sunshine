@@ -6,24 +6,32 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.sunshine.app.Presenter.ForecastPresenter;
+import com.example.android.sunshine.app.Presenter.ForecastPresenterImpl;
 import com.example.android.sunshine.app.R;
 
 
 public class MainActivity extends ActionBarActivity implements MainFragment.OnGetCityForecastClickListener {
 
+    private ForecastPresenter mPresenter;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout);
+
+        mPresenter = ForecastPresenterImpl.getInstance();
     }
 
     @Override
     public void onGetCityForecastClick(String cityName, int cityPosition) {
-//        Toast.makeText(this, "Selected item name: " + cityName + ", position: " + cityPosition, Toast.LENGTH_LONG).show();
-        Intent startCityForecastActivity = new Intent(this, CityForecastListActivity.class);
-        startCityForecastActivity.putExtra("city_name", cityName);
-        startCityForecastActivity.putExtra("city_position", cityPosition);
-        startActivity(startCityForecastActivity);
+
+        //get city code from array
+        String cityCode;
+        String[] cityCodes = getResources().getStringArray(R.array.pref_cities_values);
+        cityCode = ((cityCodes != null) && (cityCodes.length >0)) ? cityCodes[cityPosition] : ""+0;
+
+        mPresenter.onGetCityForecastButtonClicked(this, cityName, cityCode);
 
     }
 
