@@ -8,9 +8,11 @@ import com.example.android.sunshine.app.API.WeatherForecastAPI;
 import com.example.android.sunshine.app.Model.DailyForecast;
 import com.example.android.sunshine.app.Model.HourForecast;
 import com.example.android.sunshine.app.Model.Weather;
+import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.View.CityForecastListActivity;
 
 import java.io.IOException;
+import java.util.ArrayList;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -85,15 +87,8 @@ public class ForecastPresenterImpl implements ForecastPresenter {
     }
 
     @Override
-    public void onGetCityForecastButtonClicked(Context context, String cityName, String cityCode) {
-        getForecast(cityCode);
-        Intent startCityForecastActivity = new Intent(context, CityForecastListActivity.class);
-        startCityForecastActivity.putExtra("city_name", cityName);
-        startCityForecastActivity.putExtra("city_position", cityCode);
-        context.startActivity(startCityForecastActivity);
-    }
+    public void onGetCityForecastButtonClicked(final Context context, final String cityName, final String cityCode) {
 
-    private void getForecast(String cityCode) {
         WeatherForecastAPI weatherForecastAPI = retrofit.create(WeatherForecastAPI.class);
         Call<DailyForecast> dailyWeatherForecastCall = weatherForecastAPI.getDailyForecast(cityCode);
 
@@ -103,14 +98,16 @@ public class ForecastPresenterImpl implements ForecastPresenter {
             public void onResponse(Call<DailyForecast> call, Response<DailyForecast> response) {
                 int code = response.code();
                 if (code == 200) {
-                    HourForecast list = response.body().list[0];
-                    long dateAndTime = list.dt;
-                    double temperature = list.main.temp;
-                    Weather weather = list.weather[0];
-                    String description = weather.description;
-                    String iconPath = weather.icon;
-
-
+                    HourForecast[] list = response.body().list;
+                    ArrayList<WeatherForecastModelView> forecastModelViewList = new ArrayList<>();
+                    for (HourForecast hourForecast : list) {
+                        //TODO: converter long e extrair data e hora
+                        long dateAndTime = hourForecast.dt;
+                        Weather weather = hourForecast.weather[0];
+                        WeatherForecastModelView modelView = new WeatherForecastModelView("10/10", "12:00", hourForecast.main.temp, weather.description, weather.icon);
+                        forecastModelViewList.add(modelView);
+                    }
+                    startCityForecastListActivity(context, cityName, cityCode, forecastModelViewList);
                     Log.v("ComicsListActivity", "Request successful and data parsed correctly");
                 } else {
                     Log.v("ComicsListActivity", "Request successful but something went wrong parsing!!");
@@ -122,5 +119,13 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                 Log.d("MyForecast", "Request failed! onFailure: stacktrace: " + t.getLocalizedMessage());
             }
         });
+    }
+
+    public void startCityForecastListActivity(Context context, String cityName, String cityCode, ArrayList<WeatherForecastModelView> weatherForecastModelViewList) {
+        Intent startCityForecastActivity = new Intent(context, CityForecastListActivity.class);
+        startCityForecastActivity.putExtra("city_name", cityName);
+        startCityForecastActivity.putExtra("city_position", cityCode);
+        startCityForecastActivity.putParcelableArrayListExtra("weather_forecast_list", weatherForecastModelViewList);
+        context.startActivity(startCityForecastActivity);
     }
 }

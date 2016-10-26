@@ -11,10 +11,11 @@ import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.AdapterView;
-import android.widget.ArrayAdapter;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import com.example.android.sunshine.app.Adapters.DailyForecastListAdapter;
+import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.R;
 
 import java.text.SimpleDateFormat;
@@ -125,6 +126,7 @@ public class CityForecastListFragment extends Fragment {
         private int mNum;
 
         private OnForecastSelectedListener mForecastListItemClickListener;
+        private DailyForecastListAdapter mDailyForecastListAdapter;
 
 
         public static DailyForecastListFragment newInstance(int pageNumber) {
@@ -163,17 +165,26 @@ public class CityForecastListFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.daily_forecast_list_layout, container, false);
             ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
 
-            List<String> days = new ArrayList<>();
-            days.add("Page #" + mNum + " - Monday");
-            days.add("Page #" + mNum + " - Tuesday");
-            days.add("Page #" + mNum + " - Wednesday");
-            days.add("Page #" + mNum + " - Thursday");
-            days.add("Page #" + mNum + " - Friday");
-            days.add("Page #" + mNum + " - Saturday");
-            days.add("Page #" + mNum + " - Sunday");
+            List<WeatherForecastModelView> objects
+                    = new ArrayList<>();
+            objects.add(new WeatherForecastModelView("26/10", "12:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "13:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "14:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "15:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "16:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "17:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "18:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "19:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "20:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "21:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "22:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "23:00", 23.2, "description", "10d"));
+            objects.add(new WeatherForecastModelView("26/10", "24:00", 23.2, "description", "10d"));
 
-            ArrayAdapter<String> dailyForecastListAdapter = new ArrayAdapter<>(getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, days);
-            listView.setAdapter(dailyForecastListAdapter);
+//            ArrayAdapter<String> dailyForecastListAdapter = new ArrayAdapter<>(getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, days);
+            mDailyForecastListAdapter = new DailyForecastListAdapter(getActivity(), R.layout.daily_forecast_list_item_layout, objects);
+//                    getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, ((CityForecastListActivity) getActivity()).getDailyForecastList());
+            listView.setAdapter(mDailyForecastListAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override

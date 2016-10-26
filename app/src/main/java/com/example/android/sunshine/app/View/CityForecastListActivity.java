@@ -7,15 +7,19 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ArrayAdapter;
 
-import com.example.android.sunshine.app.AsyncTasks.FetchWeatherForecast;
+import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.R;
 
 public class CityForecastListActivity extends ActionBarActivity implements CityForecastListFragment.OnForecastSelectedListener {
     public static final String CITY_POSITION = "city_position";
     public static final String CITY_NAME = "city_name";
 
+    public ArrayAdapter<WeatherForecastModelView> getDailyForecastList() {
+        return null;
+    }
+
     //TODO:still not sure if this is the best place for this.
-    private ArrayAdapter<String> adapter;
+//    private ArrayAdapter<String> adapter;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -37,12 +41,13 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
 
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        if (R.id.action_refresh == item.getItemId()) {
-            //start AsyncTask
-            FetchWeatherForecast fetchForecast = new FetchWeatherForecast(adapter);
-            fetchForecast.execute();
-            return true;
-        } else if (R.id.action_settings == item.getItemId()) {
+//        if (R.id.action_refresh == item.getItemId()) {
+//            //start AsyncTask
+//            FetchWeatherForecast fetchForecast = new FetchWeatherForecast(adapter);
+//            fetchForecast.execute();
+//            return true;
+//        } else
+        if (R.id.action_settings == item.getItemId()) {
             Intent settings = new Intent(this, SettingsActivity.class);
             startActivity(settings);
             return true;

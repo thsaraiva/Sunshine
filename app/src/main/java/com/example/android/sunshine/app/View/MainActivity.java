@@ -26,7 +26,6 @@ public class MainActivity extends ActionBarActivity implements MainFragment.OnGe
     @Override
     public void onGetCityForecastClick(String cityName, int cityPosition) {
 
-        //get city code from array
         String cityCode;
         String[] cityCodes = getResources().getStringArray(R.array.pref_cities_values);
         cityCode = ((cityCodes != null) && (cityCodes.length >0)) ? cityCodes[cityPosition] : ""+0;
