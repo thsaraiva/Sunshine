@@ -6,6 +6,7 @@ import android.support.v7.app.ActionBarActivity;
 import android.view.Menu;
 import android.view.MenuItem;
 
+import com.example.android.sunshine.app.ModelView.DailyForecastModelView;
 import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.Presenter.ForecastPresenter;
 import com.example.android.sunshine.app.Presenter.ForecastPresenterImpl;
@@ -20,7 +21,8 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
 
     private ForecastPresenter mPresenter;
 
-    private ArrayList<WeatherForecastModelView> mWeatherForecastList;
+    //    private ArrayList<WeatherForecastModelView> mWeatherForecastList;
+    private ArrayList<DailyForecastModelView> mDailyWeatherForecastList;
 
     //TODO:this is NOT the best place for this.
 //    private ArrayAdapter<String> adapter;
@@ -38,7 +40,7 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            mWeatherForecastList = intent.getParcelableArrayListExtra("weather_forecast_list");
+            mDailyWeatherForecastList = intent.getParcelableArrayListExtra("daily_weather_forecast_list");
             CityForecastListFragment cityForecastListFragment = CityForecastListFragment.newInstance(intent.getStringExtra(CITY_NAME), intent.getStringExtra(CITY_POSITION));
             getSupportFragmentManager().beginTransaction().add(R.id.activity_city_forecast, cityForecastListFragment).commit();
         }
@@ -69,7 +71,7 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
     }
 
     @Override
-    public List<WeatherForecastModelView> getDailyForecastList() {
+    public List<WeatherForecastModelView> getDailyForecastList(int fragmentNumber) {
 //        List<WeatherForecastModelView> weatherForecastModelViewList
 //                = new ArrayList<>();
 //        weatherForecastModelViewList.add(new WeatherForecastModelView("26/10", "12:00", 23.2, "desc", "10d"));
@@ -86,7 +88,7 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
 //        weatherForecastModelViewList.add(new WeatherForecastModelView("26/10", "23:00", 23.2, "desc", "10d"));
 //        weatherForecastModelViewList.add(new WeatherForecastModelView("26/10", "24:00", 23.2, "desc", "10d"));
 //        return weatherForecastModelViewList;
-        return mWeatherForecastList;
+        return mDailyWeatherForecastList.get(fragmentNumber).getDailyForecastModelView();
     }
 
     @Override

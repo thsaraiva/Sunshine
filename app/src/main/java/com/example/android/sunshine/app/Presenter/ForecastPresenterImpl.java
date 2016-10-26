@@ -8,6 +8,7 @@ import com.example.android.sunshine.app.API.WeatherForecastAPI;
 import com.example.android.sunshine.app.Model.DailyForecast;
 import com.example.android.sunshine.app.Model.HourForecast;
 import com.example.android.sunshine.app.Model.Weather;
+import com.example.android.sunshine.app.ModelView.DailyForecastModelView;
 import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.View.CityForecastListActivity;
 
@@ -107,7 +108,9 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                 int code = response.code();
                 if (code == 200) {
                     HourForecast[] list = response.body().list;
-                    ArrayList<WeatherForecastModelView> forecastModelViewList = new ArrayList<>();
+                    ArrayList<DailyForecastModelView> dailyWeatherForecastList = new ArrayList<>();
+                    String lastResultDay = "";
+                    DailyForecastModelView dailyForecastModelView = null;
                     for (HourForecast hourForecast : list) {
                         long dateAndTime = hourForecast.dt;
                         Date df = new java.util.Date(dateAndTime * 1000);//must be in miliseconds
@@ -115,9 +118,18 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                         String time = new SimpleDateFormat("HH:mm", Locale.UK).format(df);
                         Weather weather = hourForecast.weather[0];
                         WeatherForecastModelView modelView = new WeatherForecastModelView(dayAndMonth, time, hourForecast.main.temp, weather.description, weather.icon);
-                        forecastModelViewList.add(modelView);
+                        if (lastResultDay.isEmpty() && dailyForecastModelView == null) {
+                            //se é a primeira vez
+                            dailyForecastModelView = new DailyForecastModelView();
+                        } else if (!lastResultDay.equalsIgnoreCase(dayAndMonth)) {
+                            //se não é o primeira vez e mudou de dia
+                            dailyWeatherForecastList.add(dailyForecastModelView);
+                            dailyForecastModelView = new DailyForecastModelView();
+                            lastResultDay = dayAndMonth;
+                        }
+                        dailyForecastModelView.addWeatherForecastModelView(modelView);
                     }
-                    startCityForecastListActivity(context, cityName, cityCode, forecastModelViewList);
+                    startCityForecastListActivity(context, cityName, cityCode, dailyWeatherForecastList);
                     Log.v("ComicsListActivity", "Request successful and data parsed correctly");
                 } else {
                     Log.v("ComicsListActivity", "Request successful but something went wrong parsing!!");
@@ -131,11 +143,11 @@ public class ForecastPresenterImpl implements ForecastPresenter {
         });
     }
 
-    public void startCityForecastListActivity(Context context, String cityName, String cityCode, ArrayList<WeatherForecastModelView> weatherForecastModelViewList) {
+    public void startCityForecastListActivity(Context context, String cityName, String cityCode, ArrayList<DailyForecastModelView> dailyWeatherForecastList) {
         Intent startCityForecastActivity = new Intent(context, CityForecastListActivity.class);
         startCityForecastActivity.putExtra("city_name", cityName);
         startCityForecastActivity.putExtra("city_position", cityCode);
-        startCityForecastActivity.putParcelableArrayListExtra("weather_forecast_list", weatherForecastModelViewList);
+        startCityForecastActivity.putParcelableArrayListExtra("daily_weather_forecast_list", dailyWeatherForecastList);
         context.startActivity(startCityForecastActivity);
     }
 }

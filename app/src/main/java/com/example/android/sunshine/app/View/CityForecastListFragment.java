@@ -165,7 +165,7 @@ public class CityForecastListFragment extends Fragment {
             ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
 
 
-            mDailyForecastListAdapter = new DailyForecastListAdapter(getActivity(), R.layout.daily_forecast_list_item_layout, mDailyForecastListListener.getDailyForecastList());
+            mDailyForecastListAdapter = new DailyForecastListAdapter(getActivity(), R.layout.daily_forecast_list_item_layout, mDailyForecastListListener.getDailyForecastList(mNum));
             listView.setAdapter(mDailyForecastListAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
@@ -184,7 +184,8 @@ public class CityForecastListFragment extends Fragment {
 
     public interface DailyForecastListListener {
         void onForecastSelected(int position);
-        List<WeatherForecastModelView> getDailyForecastList();
+
+        List<WeatherForecastModelView> getDailyForecastList(int fragmentNumber);
 
     }
 }

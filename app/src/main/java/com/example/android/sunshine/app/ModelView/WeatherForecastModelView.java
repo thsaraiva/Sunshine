@@ -9,14 +9,14 @@ import android.os.Parcelable;
 
 public class WeatherForecastModelView implements Parcelable {
 
-    public String mDdate;
+    public String mDate;
     public String mTime;
     public double mTemperature;
     public String mDescription;
     public String mIconPath;
 
     public WeatherForecastModelView(String date, String time, double temperature, String description, String iconPath) {
-        mDdate = date;
+        mDate = date;
         mTime = time;
         mTemperature = temperature;
         mDescription = description;
@@ -24,7 +24,7 @@ public class WeatherForecastModelView implements Parcelable {
     }
 
     protected WeatherForecastModelView(Parcel in) {
-        mDdate = in.readString();
+        mDate = in.readString();
         mTime = in.readString();
         mTemperature = in.readDouble();
         mDescription = in.readString();
@@ -50,7 +50,7 @@ public class WeatherForecastModelView implements Parcelable {
 
     @Override
     public void writeToParcel(Parcel parcel, int i) {
-        parcel.writeString(mDdate);
+        parcel.writeString(mDate);
         parcel.writeString(mTime);
         parcel.writeDouble(mTemperature);
         parcel.writeString(mDescription);
