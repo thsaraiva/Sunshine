@@ -12,7 +12,10 @@ import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.View.CityForecastListActivity;
 
 import java.io.IOException;
+import java.text.SimpleDateFormat;
 import java.util.ArrayList;
+import java.util.Date;
+import java.util.Locale;
 
 import okhttp3.HttpUrl;
 import okhttp3.Interceptor;
@@ -38,17 +41,29 @@ public class ForecastPresenterImpl implements ForecastPresenter {
     private String mode = "json";
     private final String UNITS_PARAMS = "units";
     private String units = "metric";
-    private final String DAYS_PARAMS = "cnt";
-    private String numberOfDays = "7";
 
     private static ForecastPresenterImpl fpi;
 
     private OkHttpClient.Builder httpClientBuilder;
     private Retrofit retrofit;
+    private CityForecastListActivity mActivity;
 
     private ForecastPresenterImpl() {
         retroFitInitialization();
     }
+
+    public static ForecastPresenterImpl getInstance() {
+        if (fpi == null) {
+            fpi = new ForecastPresenterImpl();
+        }
+        return fpi;
+    }
+
+    @Override
+    public void onTakeCityForecastListActivity(CityForecastListActivity activity) {
+        this.mActivity = activity;
+    }
+
 
     private void retroFitInitialization() {
         httpClientBuilder = new OkHttpClient.Builder();
@@ -62,7 +77,6 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                         .addQueryParameter(APPID_PARAMS, API_KEY)
                         .addQueryParameter(MODE_PARAMS, mode)
                         .addQueryParameter(UNITS_PARAMS, units)
-                        .addQueryParameter(DAYS_PARAMS, numberOfDays)
                         .build();
                 Request newRequest = originalRequest.newBuilder()
                         .url(url).build();
@@ -79,12 +93,6 @@ public class ForecastPresenterImpl implements ForecastPresenter {
         retrofit = new Retrofit.Builder().client(OkHttpClient).addConverterFactory(GsonConverterFactory.create()).baseUrl(API_BASE_URL).build();
     }
 
-    public static ForecastPresenterImpl getInstance() {
-        if (fpi == null) {
-            fpi = new ForecastPresenterImpl();
-        }
-        return fpi;
-    }
 
     @Override
     public void onGetCityForecastButtonClicked(final Context context, final String cityName, final String cityCode) {
@@ -101,10 +109,12 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                     HourForecast[] list = response.body().list;
                     ArrayList<WeatherForecastModelView> forecastModelViewList = new ArrayList<>();
                     for (HourForecast hourForecast : list) {
-                        //TODO: converter long e extrair data e hora
                         long dateAndTime = hourForecast.dt;
+                        Date df = new java.util.Date(dateAndTime * 1000);//must be in miliseconds
+                        String dayAndMonth = new SimpleDateFormat("dd/MM", Locale.UK).format(df);
+                        String time = new SimpleDateFormat("HH:mm", Locale.UK).format(df);
                         Weather weather = hourForecast.weather[0];
-                        WeatherForecastModelView modelView = new WeatherForecastModelView("10/10", "12:00", hourForecast.main.temp, weather.description, weather.icon);
+                        WeatherForecastModelView modelView = new WeatherForecastModelView(dayAndMonth, time, hourForecast.main.temp, weather.description, weather.icon);
                         forecastModelViewList.add(modelView);
                     }
                     startCityForecastListActivity(context, cityName, cityCode, forecastModelViewList);

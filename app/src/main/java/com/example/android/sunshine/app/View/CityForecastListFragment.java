@@ -19,7 +19,6 @@ import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.R;
 
 import java.text.SimpleDateFormat;
-import java.util.ArrayList;
 import java.util.Calendar;
 import java.util.List;
 
@@ -125,7 +124,7 @@ public class CityForecastListFragment extends Fragment {
         private static final String PAGE_NUMBER = "pageNumber";
         private int mNum;
 
-        private OnForecastSelectedListener mForecastListItemClickListener;
+        private DailyForecastListListener mDailyForecastListListener;
         private DailyForecastListAdapter mDailyForecastListAdapter;
 
 
@@ -148,9 +147,9 @@ public class CityForecastListFragment extends Fragment {
             super.onAttach(activity);
 
             try {
-                mForecastListItemClickListener = (OnForecastSelectedListener) activity;
+                mDailyForecastListListener = (DailyForecastListListener) activity;
             } catch (ClassCastException e) {
-                throw new ClassCastException(activity.toString() + " should implement interface OnForecastSelectedListener");
+                throw new ClassCastException(activity.toString() + " should implement interface DailyForecastListListener");
             }
 
             Bundle arguments = getArguments();
@@ -165,31 +164,14 @@ public class CityForecastListFragment extends Fragment {
             View rootView = inflater.inflate(R.layout.daily_forecast_list_layout, container, false);
             ListView listView = (ListView) rootView.findViewById(R.id.listview_forecast);
 
-            List<WeatherForecastModelView> objects
-                    = new ArrayList<>();
-            objects.add(new WeatherForecastModelView("26/10", "12:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "13:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "14:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "15:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "16:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "17:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "18:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "19:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "20:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "21:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "22:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "23:00", 23.2, "description", "10d"));
-            objects.add(new WeatherForecastModelView("26/10", "24:00", 23.2, "description", "10d"));
 
-//            ArrayAdapter<String> dailyForecastListAdapter = new ArrayAdapter<>(getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, days);
-            mDailyForecastListAdapter = new DailyForecastListAdapter(getActivity(), R.layout.daily_forecast_list_item_layout, objects);
-//                    getActivity(), R.layout.daily_forecast_list_item_layout, R.id.list_item_forecast_TextView, ((CityForecastListActivity) getActivity()).getDailyForecastList());
+            mDailyForecastListAdapter = new DailyForecastListAdapter(getActivity(), R.layout.daily_forecast_list_item_layout, mDailyForecastListListener.getDailyForecastList());
             listView.setAdapter(mDailyForecastListAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    mForecastListItemClickListener.onForecastSelected(position);
+                    mDailyForecastListListener.onForecastSelected(position);
                 }
             });
 
@@ -200,7 +182,9 @@ public class CityForecastListFragment extends Fragment {
         }
     }
 
-    public interface OnForecastSelectedListener {
+    public interface DailyForecastListListener {
         void onForecastSelected(int position);
+        List<WeatherForecastModelView> getDailyForecastList();
+
     }
 }

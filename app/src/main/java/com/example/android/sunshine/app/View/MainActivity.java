@@ -20,7 +20,9 @@ public class MainActivity extends ActionBarActivity implements MainFragment.OnGe
         super.onCreate(savedInstanceState);
         setContentView(R.layout.main_activity_layout);
 
-        mPresenter = ForecastPresenterImpl.getInstance();
+        if (mPresenter == null) {
+            mPresenter = ForecastPresenterImpl.getInstance();
+        }
     }
 
     @Override
@@ -28,7 +30,7 @@ public class MainActivity extends ActionBarActivity implements MainFragment.OnGe
 
         String cityCode;
         String[] cityCodes = getResources().getStringArray(R.array.pref_cities_values);
-        cityCode = ((cityCodes != null) && (cityCodes.length >0)) ? cityCodes[cityPosition] : ""+0;
+        cityCode = ((cityCodes != null) && (cityCodes.length > 0)) ? cityCodes[cityPosition] : "" + 0;
 
         mPresenter.onGetCityForecastButtonClicked(this, cityName, cityCode);
 
