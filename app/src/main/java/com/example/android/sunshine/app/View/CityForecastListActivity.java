@@ -18,6 +18,7 @@ import java.util.List;
 public class CityForecastListActivity extends ActionBarActivity implements CityForecastListFragment.DailyForecastListListener {
     public static final String CITY_POSITION = "city_position";
     public static final String CITY_NAME = "city_name";
+    public static final String DAILY_WEATHER_FORECAST_LIST = "daily_weather_forecast_list";
 
     private ForecastPresenter mPresenter;
 
@@ -40,7 +41,7 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
 
         if (savedInstanceState == null) {
             Intent intent = getIntent();
-            mDailyWeatherForecastList = intent.getParcelableArrayListExtra("daily_weather_forecast_list");
+            mDailyWeatherForecastList = intent.getParcelableArrayListExtra(DAILY_WEATHER_FORECAST_LIST);
             CityForecastListFragment cityForecastListFragment = CityForecastListFragment.newInstance(intent.getStringExtra(CITY_NAME), intent.getStringExtra(CITY_POSITION));
             getSupportFragmentManager().beginTransaction().add(R.id.activity_city_forecast, cityForecastListFragment).commit();
         }
@@ -96,5 +97,20 @@ public class CityForecastListActivity extends ActionBarActivity implements CityF
         Intent openDetailsActivity = new Intent(this, ForecastDetailsActivity.class);
         openDetailsActivity.putExtra("forecast_list_item_position", position);
         startActivity(openDetailsActivity);
+    }
+
+    @Override
+    public int getPagesNumber() {
+        int pages = (mDailyWeatherForecastList != null) ? mDailyWeatherForecastList.size() : 0;
+        return pages;
+    }
+
+    @Override
+    public String getPageTitle(int position) {
+        DailyForecastModelView mv = (mDailyWeatherForecastList != null) ? mDailyWeatherForecastList.get(position) : null;
+        if (mv != null) {
+            return mv.mDay;
+        }
+        return "";
     }
 }

@@ -18,18 +18,18 @@ import com.example.android.sunshine.app.Adapters.DailyForecastListAdapter;
 import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
 import com.example.android.sunshine.app.R;
 
-import java.text.SimpleDateFormat;
-import java.util.Calendar;
 import java.util.List;
 
 public class CityForecastListFragment extends Fragment {
 
     private static final String CITY_POSITION = "city_position";
     private static final String CITY_NAME = "city_name";
-    private static final int PAGES_NUMBER = 5;
 
     private String mCityName;
     private String mCityPosition;
+
+    private DailyForecastListListener mDailyForecastListListener;
+
 
     public static CityForecastListFragment newInstance(String cityName, String cityPosition) {
         CityForecastListFragment fragment = new CityForecastListFragment();
@@ -46,6 +46,17 @@ public class CityForecastListFragment extends Fragment {
         if (getArguments() != null) {
             mCityName = getArguments().getString(CITY_NAME);
             mCityPosition = getArguments().getString(CITY_POSITION);
+        }
+    }
+
+
+    @Override
+    public void onAttach(Activity activity) {
+        super.onAttach(activity);
+        try {
+            mDailyForecastListListener = (DailyForecastListListener) activity;
+        } catch (ClassCastException e) {
+            throw new ClassCastException(activity.toString() + " should implement interface DailyForecastListListener");
         }
     }
 
@@ -72,7 +83,15 @@ public class CityForecastListFragment extends Fragment {
         return super.onCreateView(inflater, container, savedInstanceState);
     }
 
-    public static class DailyForecastPagerAdapter extends FragmentPagerAdapter {
+    public int getPagesNumberFromActivity() {
+        return mDailyForecastListListener.getPagesNumber();
+    }
+
+    public String getPageTitleFromActivity(int position) {
+        return mDailyForecastListListener.getPageTitle(position);
+    }
+
+    public class DailyForecastPagerAdapter extends FragmentPagerAdapter {
 
         public DailyForecastPagerAdapter(FragmentManager fm) {
             super(fm);
@@ -89,11 +108,12 @@ public class CityForecastListFragment extends Fragment {
          */
         @Override
         public CharSequence getPageTitle(int position) {
-            Calendar currentTime = Calendar.getInstance();
-            currentTime.add(Calendar.DAY_OF_MONTH, position);
-
-            SimpleDateFormat df = new SimpleDateFormat("dd/MM");
-            return df.format(currentTime.getTime());
+//            Calendar currentTime = Calendar.getInstance();
+//            currentTime.add(Calendar.DAY_OF_MONTH, position);
+//
+//            SimpleDateFormat df = new SimpleDateFormat("dd/MM");
+//            return df.format(currentTime.getTime());
+            return getPageTitleFromActivity(position);
         }
 
         /**
@@ -111,7 +131,7 @@ public class CityForecastListFragment extends Fragment {
          */
         @Override
         public int getCount() {
-            return PAGES_NUMBER;
+            return getPagesNumberFromActivity();
         }
     }
 
@@ -171,7 +191,7 @@ public class CityForecastListFragment extends Fragment {
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int position, long l) {
-                    mDailyForecastListListener.onForecastSelected(position);
+//                    mDailyForecastListListener.onForecastSelected(position);
                 }
             });
 
@@ -187,5 +207,8 @@ public class CityForecastListFragment extends Fragment {
 
         List<WeatherForecastModelView> getDailyForecastList(int fragmentNumber);
 
+        int getPagesNumber();
+
+        String getPageTitle(int position);
     }
 }

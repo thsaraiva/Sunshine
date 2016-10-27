@@ -12,14 +12,22 @@ import java.util.ArrayList;
 
 public class DailyForecastModelView implements Parcelable {
 
-    public ArrayList<WeatherForecastModelView> mDailyForecastModelView;
+    public String mDay;
+
+    private ArrayList<WeatherForecastModelView> mDailyForecastModelView;
 
     public DailyForecastModelView() {
+        this("");
+    }
+
+    public DailyForecastModelView(String day) {
         mDailyForecastModelView = new ArrayList<>();
+        mDay = day;
     }
 
     public DailyForecastModelView(Parcel parcel) {
         this.mDailyForecastModelView = parcel.readArrayList(this.getClass().getClassLoader());
+        this.mDay = parcel.readString();
     }
 
     public static final Creator<DailyForecastModelView> CREATOR = new Creator<DailyForecastModelView>() {
@@ -53,5 +61,6 @@ public class DailyForecastModelView implements Parcelable {
     @Override
     public void writeToParcel(Parcel parcel, int i) {
         parcel.writeList(mDailyForecastModelView);
+        parcel.writeString(mDay);
     }
 }

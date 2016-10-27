@@ -120,15 +120,16 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                         WeatherForecastModelView modelView = new WeatherForecastModelView(dayAndMonth, time, hourForecast.main.temp, weather.description, weather.icon);
                         if (lastResultDay.isEmpty() && dailyForecastModelView == null) {
                             //se é a primeira vez
-                            dailyForecastModelView = new DailyForecastModelView();
+                            dailyForecastModelView = new DailyForecastModelView(dayAndMonth);
                         } else if (!lastResultDay.equalsIgnoreCase(dayAndMonth)) {
                             //se não é o primeira vez e mudou de dia
                             dailyWeatherForecastList.add(dailyForecastModelView);
-                            dailyForecastModelView = new DailyForecastModelView();
-                            lastResultDay = dayAndMonth;
+                            dailyForecastModelView = new DailyForecastModelView(dayAndMonth);
                         }
+                        lastResultDay = dayAndMonth;
                         dailyForecastModelView.addWeatherForecastModelView(modelView);
                     }
+                    dailyWeatherForecastList.add(dailyForecastModelView);
                     startCityForecastListActivity(context, cityName, cityCode, dailyWeatherForecastList);
                     Log.v("ComicsListActivity", "Request successful and data parsed correctly");
                 } else {
@@ -147,7 +148,7 @@ public class ForecastPresenterImpl implements ForecastPresenter {
         Intent startCityForecastActivity = new Intent(context, CityForecastListActivity.class);
         startCityForecastActivity.putExtra("city_name", cityName);
         startCityForecastActivity.putExtra("city_position", cityCode);
-        startCityForecastActivity.putParcelableArrayListExtra("daily_weather_forecast_list", dailyWeatherForecastList);
+        startCityForecastActivity.putParcelableArrayListExtra(CityForecastListActivity.DAILY_WEATHER_FORECAST_LIST, dailyWeatherForecastList);
         context.startActivity(startCityForecastActivity);
     }
 }
