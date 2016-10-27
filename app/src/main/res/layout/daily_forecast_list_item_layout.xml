@@ -35,18 +35,13 @@
         android:textSize="@dimen/abc_text_size_headline_material"
         android:textStyle="bold" />
 
-    <TextView
-        android:id="@+id/daily_forecast_icon_textview"
-        android:layout_width="0dp"
-        android:layout_height="wrap_content"
-        android:layout_weight="1"
-        android:gravity="center"
-        android:minHeight="48dp"
-        android:paddingLeft="8dp"
-        android:text="Demo"
-        android:textColor="#000"
-        android:textSize="@dimen/abc_text_size_headline_material"
-        android:textStyle="bold" />
+
+    <ImageView
+        android:id="@+id/daily_forecast_icon_imageview"
+        android:layout_width="72dp"
+        android:layout_height="72dp"
+        android:layout_weight="0"
+        android:scaleType="centerCrop" />
 
     <TextView
         android:id="@+id/daily_forecast_description_textview"
