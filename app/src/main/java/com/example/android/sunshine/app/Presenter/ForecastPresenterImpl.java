@@ -37,7 +37,7 @@ public class ForecastPresenterImpl implements ForecastPresenter {
 
     private final String API_BASE_URL = "http://api.openweathermap.org/";
     private final String APPID_PARAMS = "APPID";
-    private final String API_KEY = "";
+    private final String API_KEY = "674241f50ea6f65a948e32c5f74c5132";
     private final String MODE_PARAMS = "mode";
     private String mode = "json";
     private final String UNITS_PARAMS = "units";
