@@ -20,13 +20,12 @@
         </activity>
         <activity
             android:name=".View.ForecastDetailsActivity"
-            android:parentActivityName=".View.MainActivity">
-            <meta-data
-                android:name="android.support.PARENT_ACTIVITY"
-                android:value=".View.MainActivity" />
-        </activity>
-        <activity android:name=".View.SettingsActivity" />
-        <activity android:name=".View.CityForecastListActivity"></activity>
+            android:label="@string/details_activity"></activity>
+        <activity
+            android:name=".View.SettingsActivity"
+            android:label="@string/settings_activity"></activity>
+        <activity android:name=".View.CityForecastListActivity"
+            android:label="@string/forecast_list_activity"></activity>
     </application>
 
 </manifest>

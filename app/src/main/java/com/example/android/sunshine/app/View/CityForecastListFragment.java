@@ -74,13 +74,22 @@ public class CityForecastListFragment extends Fragment {
         //set the adapter in the ViewPager
         ViewPager viewPager = (ViewPager) rootView.findViewById(R.id.city_forecast_view_pager);
         if (viewPager != null) {
-            viewPager.setAdapter(new DailyForecastPagerAdapter(getFragmentManager()));
+            DailyForecastPagerAdapter dailyForecastPagerAdapter = new DailyForecastPagerAdapter(getFragmentManager());
+            mDailyForecastListListener.registerDailyForecastPagerAdapter(dailyForecastPagerAdapter);
+            viewPager.setAdapter(dailyForecastPagerAdapter);
         }
 
         if (rootView != null) {
             return rootView;
         }
         return super.onCreateView(inflater, container, savedInstanceState);
+    }
+
+    public void updateCityName(String newCityName) {
+        TextView cityNameTextView = (TextView) getView().findViewById(R.id.city_name);
+        if (cityNameTextView != null) {
+            cityNameTextView.setText(newCityName);
+        }
     }
 
     public int getPagesNumberFromActivity() {
@@ -187,6 +196,7 @@ public class CityForecastListFragment extends Fragment {
 
             mDailyForecastListAdapter = new DailyForecastListAdapter(getActivity(), R.layout.daily_forecast_list_item_layout, mDailyForecastListListener.getDailyForecastList(mNum));
             listView.setAdapter(mDailyForecastListAdapter);
+            mDailyForecastListListener.registerDailyForecastListAdapter(mDailyForecastListAdapter);
 
             listView.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -210,5 +220,9 @@ public class CityForecastListFragment extends Fragment {
         int getPagesNumber();
 
         String getPageTitle(int position);
+
+        void registerDailyForecastPagerAdapter(DailyForecastPagerAdapter dailyForecastPagerAdapter);
+
+        void registerDailyForecastListAdapter(DailyForecastListAdapter dailyForecastListAdapter);
     }
 }

@@ -9,7 +9,19 @@
     <string name="go">Get Forecast!</string>
     <string name="no_city_selected">No city selected</string>
 
-    <!-- TODO: Remove or change this placeholder text -->
-    <string name="hello_blank_fragment">Hello blank fragment</string>
+    <string name="settings_activity">Settings</string>
+    <string name="pref_unit_key">units_pref</string>
+    <string name="pref_city_key">cities_pref</string>
+    <string name="unit_settings_item_title">Select unit system</string>
+    <string name="city_settings_item_title">Select a city</string>
+    <string name="unit_settings_dialog_title">List of available units</string>
+    <string name="city_settings_dialog_title">List of available cities</string>
+    <string name="pref_city_default_value">5368361</string>
+    <string name="pref_unit_default_value">metric</string>
+
+    <string name="settings_shared_preference_file_key">com.example.android.sunshine.SETTINGS_SHARED_PREFERENCE_FILE_KEY</string>
+    <string name="forecast_list_activity">Weather Forecast</string>
+    <string name="details_activity">Detailed Forecast</string>
+
 
 </resources>

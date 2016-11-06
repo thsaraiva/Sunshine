@@ -1,15 +1,22 @@
 package com.example.android.sunshine.app.Presenter;
 
-import android.content.Context;
-
 import com.example.android.sunshine.app.View.CityForecastListActivity;
+import com.example.android.sunshine.app.View.MainActivity;
 
 /**
  * Created by thsaraiva on 17/10/2016.
  */
 public interface ForecastPresenter {
 
-    public void onGetCityForecastButtonClicked(Context context, String cityName, String cityPosition);
+    void getCityForecastDataOnNetwork(String cityPosition, String unit);
 
-    public void onTakeCityForecastListActivity(CityForecastListActivity activity);
+    void onTakeCityForecastListActivity(CityForecastListActivity activity);
+
+    void onDestroyCityForecastListActivity(CityForecastListActivity activity);
+
+    void onTakeMainActivity(MainActivity activity);
+
+    void onDestroyMainActivity(MainActivity activity);
+
+    void checkIfSettingsHaveChanged(String currentCityCode, String currentUnit);
 }

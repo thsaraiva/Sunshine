@@ -1,27 +1,28 @@
 <?xml version="1.0" encoding="utf-8"?>
 <PreferenceScreen xmlns:android="http://schemas.android.com/apk/res/android">
     <CheckBoxPreference
+        android:defaultValue="true"
         android:key="check_pref"
-        android:title="checkbox preference"
         android:summary="string explicando pra que serve a preference"
-        android:defaultValue="true" />
-
-
-    <ListPreference
-        android:dependency="check_pref"
-        android:key="units_pref"
-        android:title="list preference"
-        android:dialogTitle="titulo do Dialog"
-        android:entries="@array/pref_units_entries"
-        android:entryValues="@array/pref_units_values"
-        android:defaultValue="metric" />
+        android:title="checkbox preference" />
 
     <ListPreference
+        android:defaultValue="@string/pref_city_default_value"
         android:dependency="check_pref"
-        android:key="cities_pref"
-        android:title="Select a City"
-        android:dialogTitle="List of available cities"
+        android:dialogTitle="@string/city_settings_dialog_title"
         android:entries="@array/pref_cities_entries"
         android:entryValues="@array/pref_cities_values"
-        android:defaultValue="2643743" />
+        android:key="@string/pref_city_key"
+        android:title="@string/city_settings_item_title" />
+
+    <ListPreference
+        android:defaultValue="@string/pref_unit_default_value"
+        android:dependency="check_pref"
+        android:dialogTitle="@string/unit_settings_dialog_title"
+        android:entries="@array/pref_units_entries"
+        android:entryValues="@array/pref_units_values"
+        android:key="@string/pref_unit_key"
+        android:title="@string/unit_settings_item_title" />
+
+
 </PreferenceScreen>

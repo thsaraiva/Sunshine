@@ -13,5 +13,5 @@ import retrofit2.http.Query;
 public interface WeatherForecastAPI {
 
     @GET("/data/2.5/forecast")
-    Call<DailyForecast> getDailyForecast(@Query("id") String city_id);
+    Call<DailyForecast> getDailyForecast(@Query("id") String city_id, @Query("units") String unit);
 }

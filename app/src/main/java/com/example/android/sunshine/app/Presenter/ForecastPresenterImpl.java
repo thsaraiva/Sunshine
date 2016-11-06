@@ -2,6 +2,8 @@ package com.example.android.sunshine.app.Presenter;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
+import android.preference.PreferenceManager;
 import android.util.Log;
 
 import com.example.android.sunshine.app.API.WeatherForecastAPI;
@@ -10,7 +12,9 @@ import com.example.android.sunshine.app.Model.HourForecast;
 import com.example.android.sunshine.app.Model.Weather;
 import com.example.android.sunshine.app.ModelView.DailyForecastModelView;
 import com.example.android.sunshine.app.ModelView.WeatherForecastModelView;
+import com.example.android.sunshine.app.R;
 import com.example.android.sunshine.app.View.CityForecastListActivity;
+import com.example.android.sunshine.app.View.MainActivity;
 
 import java.io.IOException;
 import java.text.SimpleDateFormat;
@@ -40,14 +44,15 @@ public class ForecastPresenterImpl implements ForecastPresenter {
     private final String API_KEY = "674241f50ea6f65a948e32c5f74c5132";
     private final String MODE_PARAMS = "mode";
     private String mode = "json";
-    private final String UNITS_PARAMS = "units";
+    //    private final String UNITS_PARAMS = "units";
     private String units = "metric";
 
     private static ForecastPresenterImpl fpi;
 
     private OkHttpClient.Builder httpClientBuilder;
     private Retrofit retrofit;
-    private CityForecastListActivity mActivity;
+    private CityForecastListActivity mCityForecastListActivity;
+    private MainActivity mMainActivity;
 
     private ForecastPresenterImpl() {
         retroFitInitialization();
@@ -62,7 +67,36 @@ public class ForecastPresenterImpl implements ForecastPresenter {
 
     @Override
     public void onTakeCityForecastListActivity(CityForecastListActivity activity) {
-        this.mActivity = activity;
+        this.mCityForecastListActivity = activity;
+    }
+
+    @Override
+    public void onDestroyCityForecastListActivity(CityForecastListActivity activity) {
+        if (this.mCityForecastListActivity == activity) {
+            this.mCityForecastListActivity = null;
+        }
+    }
+
+    @Override
+    public void onTakeMainActivity(MainActivity activity) {
+        this.mMainActivity = activity;
+    }
+
+    @Override
+    public void onDestroyMainActivity(MainActivity activity) {
+        if (this.mMainActivity == activity) {
+            this.mMainActivity = null;
+        }
+    }
+
+    @Override
+    public void checkIfSettingsHaveChanged(String currentCityCode, String currentUnit) {
+        SharedPreferences sharedPreferences = PreferenceManager.getDefaultSharedPreferences(this.mCityForecastListActivity);
+        String citySavedInPreference = sharedPreferences.getString(this.mCityForecastListActivity.getString(R.string.pref_city_key), this.mCityForecastListActivity.getString(R.string.pref_city_default_value));
+        String unitSavedInPreference = sharedPreferences.getString(this.mCityForecastListActivity.getString(R.string.pref_unit_key), this.mCityForecastListActivity.getString(R.string.pref_unit_default_value));
+        if (!currentCityCode.equalsIgnoreCase(citySavedInPreference) || !currentUnit.equalsIgnoreCase(unitSavedInPreference)) {
+            getCityForecastDataOnNetwork(citySavedInPreference, unitSavedInPreference);
+        }
     }
 
 
@@ -77,7 +111,6 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                 HttpUrl url = originalHttpUrl.newBuilder()
                         .addQueryParameter(APPID_PARAMS, API_KEY)
                         .addQueryParameter(MODE_PARAMS, mode)
-                        .addQueryParameter(UNITS_PARAMS, units)
                         .build();
                 Request newRequest = originalRequest.newBuilder()
                         .url(url).build();
@@ -96,10 +129,10 @@ public class ForecastPresenterImpl implements ForecastPresenter {
 
 
     @Override
-    public void onGetCityForecastButtonClicked(final Context context, final String cityName, final String cityCode) {
+    public void getCityForecastDataOnNetwork(final String cityCode, final String unit) {
 
         WeatherForecastAPI weatherForecastAPI = retrofit.create(WeatherForecastAPI.class);
-        Call<DailyForecast> dailyWeatherForecastCall = weatherForecastAPI.getDailyForecast(cityCode);
+        Call<DailyForecast> dailyWeatherForecastCall = weatherForecastAPI.getDailyForecast(cityCode, unit);
 
         //makes an asynchronous call to obtain the list of comics.
         dailyWeatherForecastCall.enqueue(new Callback<DailyForecast>() {
@@ -130,7 +163,8 @@ public class ForecastPresenterImpl implements ForecastPresenter {
                         dailyForecastModelView.addWeatherForecastModelView(modelView);
                     }
                     dailyWeatherForecastList.add(dailyForecastModelView);
-                    startCityForecastListActivity(context, cityName, cityCode, dailyWeatherForecastList);
+                    displayNewCityWeatherForecast(response.body().city.name, cityCode, unit, dailyWeatherForecastList);
+
                     Log.v("ComicsListActivity", "Request successful and data parsed correctly");
                 } else {
                     Log.v("ComicsListActivity", "Request successful but something went wrong parsing!!");
@@ -144,11 +178,18 @@ public class ForecastPresenterImpl implements ForecastPresenter {
         });
     }
 
-    public void startCityForecastListActivity(Context context, String cityName, String cityCode, ArrayList<DailyForecastModelView> dailyWeatherForecastList) {
-        Intent startCityForecastActivity = new Intent(context, CityForecastListActivity.class);
-        startCityForecastActivity.putExtra("city_name", cityName);
-        startCityForecastActivity.putExtra("city_position", cityCode);
-        startCityForecastActivity.putParcelableArrayListExtra(CityForecastListActivity.DAILY_WEATHER_FORECAST_LIST, dailyWeatherForecastList);
-        context.startActivity(startCityForecastActivity);
+    public void displayNewCityWeatherForecast(String cityName, String cityCode, String current_unit, ArrayList<DailyForecastModelView> dailyWeatherForecastList) {
+        if (mCityForecastListActivity == null) {
+            //means I´m creating the forecast list Activity for the first time, so let´s start it.
+            Intent startCityForecastActivity = new Intent(mMainActivity, CityForecastListActivity.class);
+            startCityForecastActivity.putExtra(CityForecastListActivity.CITY_NAME, cityName);
+            startCityForecastActivity.putExtra(CityForecastListActivity.CITY_POSITION, cityCode);
+            startCityForecastActivity.putExtra(CityForecastListActivity.CURRENT_UNIT, current_unit);
+            startCityForecastActivity.putParcelableArrayListExtra(CityForecastListActivity.DAILY_WEATHER_FORECAST_LIST, dailyWeatherForecastList);
+            mMainActivity.startActivity(startCityForecastActivity);
+        } else {
+            //means I´ve already crated the forecast list Activity and am just refreshing the data
+            mCityForecastListActivity.updateCityForecastData(cityName, dailyWeatherForecastList);
+        }
     }
 }
